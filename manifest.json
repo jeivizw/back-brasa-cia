@@ -1,0 +1,23 @@
+{
+  "name": "Brasa & Cia",
+  "short_name": "Brasa",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ca3c3f",
+  "description": "Brasa & Cia é uma hamburgueria artesanal localizada em Sorocaba, São Paulo. Oferecemos uma variedade de hambúrgueres deliciosos, feitos com ingredientes frescos e de alta qualidade. Nosso cardápio inclui opções variadas, além de acompanhamentos saborosos e bebidas refrescantes. Venha experimentar nossos hambúrgueres artesanais e desfrutar de uma experiência gastronômica única!",
+ "icons": [
+  {
+    "src": "assets/images/logopwa.png",
+    "sizes": "192x192",
+    "type": "image/png",
+    "purpose": "any maskable"
+  },
+  {
+    "src": "assets/images/logopwa512.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }
+]
+}

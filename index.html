@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brasa & Cia - O verdadeiro sabor do churrasco</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ca3c3f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="assets/images/logoowa.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logopwa.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logopwa.png">
+    <link rel="icon" href="assets/images/logopwa.png">
+    <link rel="shortcut icon" href="asstets/images/logopwa.png" type="image/x-icon">
+    <meta name="msapplication-TileImage" content="assets/images/logopwa.png">
+    <meta property="og:title" content="/assets/images/logopwa.png">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'barlow': ['Barlow', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#ca3c3f',
+                        dark: '#222222',
+                        muted: '#999999',
+                        footer: '#333333',
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="text-[#222222] overflow-x-hidden m-0 w-screen">
+
+    <header class="w-full bg-white shadow-sm py-4 px-6 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="max-w-[150px] md:max-w-[200px]">
+                <a href="./cozinha.html">
+                    <img src="/assets/images/logo.png" alt="Brasa & Cia Churrascaria" class="w-full">
+                </a>
+            </h1>
+
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8 font-bold text-sm uppercase tracking-wider">
+                    <li><a href="#cardapio" class="hover:text-[#ca4c3f] transition-colors">Cardápio</a></li>
+                    <li><a href="#" class="hover:text-[#ca4c3f] transition-colors">Sobre</a></li>
+                    <li><a href="#" class="hover:text-[#ca4c3f] transition-colors">Contato</a></li>
+                </ul>
+            </nav>
+
+            <button id="menu-toggle" class="md:hidden text-[#333333] focus:outline-none p-2" aria-label="Abrir Menu">
+                <svg id="hamburger-icon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <nav id="mobile-menu" class="hidden md:hidden w-full pt-4 pb-2 border-t mt-4 transition-all duration-300">
+            <ul class="flex flex-col space-y-4 font-bold text-center uppercase">
+                <li><a href="#cardapio" class="block py-2 hover:bg-gray-50 text-[#ca4c3f]">Cardápio</a></li>
+                <li><a href="#" class="block py-2 hover:bg-gray-50">Sobre</a></li>
+                <li><a href="#" class="block py-2 hover:bg-gray-50">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section
+            class="flex flex-col md:flex-row items-center justify-center text-center md:text-left px-6 py-12 md:py-20 max-w-7xl mx-auto gap-8">
+            <div class="w-full md:w-1/2">
+                <p class="text-3xl md:text-6xl font-semibold leading-tight mb-6">O verdadeiro sabor do churrasco de
+                    excelência
+                </p>
+                <a class="inline-block border border-[#333333] rounded-2xl px-8 py-5 text-xl font-medium hover:bg-[#333333] hover:text-white transition-all"
+                    href="#cardapio">
+                    Veja nosso Cardápio
+                </a>
+            </div>
+            <div class="w-full md:w-1/2 flex justify-center">
+                <img src="assets/images/banner.png" alt="Cortes de carnes nobres na grelha"
+                    class="w-[90%] max-w-[500px]">
+            </div>
+        </section>
+
+        <section class="container mx-auto max-w-[980px] mt-24 px-4 py-12 border-t border-dashed border-gray-400"
+            id="cardapio">
+
+            <h2 class="text-center text-4xl font-bold mb-12 uppercase tracking-wide">Cardápio</h2>
+
+            <nav id="nav-categorias" class="overflow-x-auto whitespace-nowrap snap-x- flex gap-2 mt-6 pb-1">
+                <div class="animate-pulse flex gap-2">
+                    <div class="h-8 w-20 bg-gray rounded-full "></div>
+                    <div class="h-8 w-20 bg-gray rounded-full "></div>
+                    <div class="h-8 w-20 bg-gray rounded-full "></div>
+                </div>
+
+            </nav>
+
+            <div id="produtos-container" class="mt-8">
+                <div id="categoria-titulo" class="text-left text-dark font-extrabold text-[22px] mb-4 ">
+                    Iniciando o carregamento da grelha...
+                </div>
+                <div id="lista-produtos" class="grid grid-cols-2 gap-4">
+                </div>
+            </div>
+
+        </section>
+        <script>
+            // 👇 ESTA CONSTANTE VAI SERVIR PARA O SITE INTEIRO
+            const API_URL = 'https://back-brasa-cia.vercel.app/api';
+            const navCategorias = document.getElementById('nav-categorias');
+            const listaProdutos = document.getElementById('lista-produtos');
+            const categoriaTitulo = document.getElementById('categoria-titulo');
+            let categoriasData = [];
+
+            let categoriaAtivaId = null;
+
+            async function carregarCategorias() {
+                try {
+                    const response = await fetch(`${API_URL}/categorias`);
+                    categoriasData = await response.json();
+                    renderizarBotoesCategorias();
+
+                    // Seleciona a 1ª categoria automaticamente
+                    if (categoriasData.length > 0) {
+                        selecionarCategoria(categoriasData[0].id, categoriasData[0].nome);
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar categorias:', error);
+                    navCategorias.innerHTML = '<p class="text-red-500 text-sm">Erro ao carregar o menu. Tente novamente.</p>';
+                }
+            }
+
+            // Função para renderizar os botões das categorias
+            function renderizarBotoesCategorias() {
+                navCategorias.innerHTML = '';
+                categoriasData.forEach(cat => {
+                    const btn = document.createElement('button');
+
+                    btn.className = `snap-start px-4 py-2 rounded-full font-bold text-sm transition-all duration-150 cursor-pointer flex-shrink-0 btn-cat`;
+                    btn.innerText = cat.nome;
+                    btn.onclick = () => selecionarCategoria(cat.id, cat.nome);
+                    btn.dataset.id = cat.id;
+
+                    navCategorias.appendChild(btn);
+                });
+            }
+
+            // Função para mudar a categoria
+            function selecionarCategoria(id, nome) {
+                categoriaAtivaId = id;
+                categoriaTitulo.innerText = nome;
+
+                const botoes = document.querySelectorAll('.btn-cat');
+                botoes.forEach(btn => {
+                    if (parseInt(btn.dataset.id) === id) {
+                        btn.classList.add('bg-primary', 'text-white');
+                        btn.classList.remove('bg-[#ebebeb]', 'text-dark');
+                    } else {
+                        btn.classList.remove('bg-primary', 'text-white');
+                        btn.classList.add('bg-[#ebebeb]', 'text-dark');
+                    }
+                });
+
+                carregarProdutos(id);
+            }
+
+            async function carregarProdutos(categoriaId) {
+                listaProdutos.innerHTML = `
+                <div class="col-span-2 py-10 flex justify-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+                `;
+                try {
+                    const response = await fetch(`${API_URL}/produtos?categoriaId=${categoriaId}`);
+                    const produtos = await response.json();
+                    renderizarProdutos(produtos);
+                } catch (error) {
+                    console.error('Erro ao carregar produtos:', error);
+                    listaProdutos.innerHTML = '<p class="col-span-2 text-red-500"> Erro ao carregar as carnes. Tente novamente.</p>';
+                }
+            }
+
+            function renderizarProdutos(produtos) {
+                listaProdutos.innerHTML = '';
+
+                if (produtos.length === 0) {
+                    listaProdutos.innerHTML = '<p class="col-span-2 text-muted py-10">Nenhum produto nesta categoria.</p>';
+                    return;
+                }
+
+                produtos.forEach(p => {
+                    const precoFormatado = p.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+                    // CORREÇÃO: Verifica se é URL do Supabase ou imagem local
+                    let imgSource;
+                    if (p.imagem && p.imagem.startsWith('http')) {
+                        // É uma URL completa do Supabase Storage
+                        imgSource = p.imagem;
+                    } else if (p.imagem) {
+                        // É um nome de arquivo local
+                        imgSource = `assets/images/${p.imagem}`;
+                    } else {
+                        // Fallback para logo
+                        imgSource = 'assets/images/logo.png';
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-[20px] p-3 shadow-sm border border-gray-100 relative flex flex-col hover:shadow-md transition-shadow group";
+                    card.innerHTML = `
+            <div class="absolute inset-0 z-0 cursor-pointer" onclick="abrirModalDetalhes('${p.nome.replace(/'/g, "\\'")}', ${p.preco}, '${(p.descricao || '').replace(/'/g, "\\'")}', '${imgSource}', '${p.id}')"></div>
+            <img src="${imgSource}" alt="${p.nome}" class="w-full h-24 object-contain mb-2 mt-2 transition-transform duration-300 drop-shadow-md group-hover:scale-105 pointer-events-none relative z-10" onerror="this.src='assets/images/logo.png'">
+            <div class="text-left w-full mt-auto relative z-10 pointer-events-none">
+                <h4 class="font-bold text-dark text-sm leading-tight">${p.nome}</h4>
+            </div>
+            <button onclick="adicionarItem('${p.id}', '${p.nome.replace(/'/g, "\\'")}', ${p.preco})" class="w-full bg-primary text-white py-2 rounded-xl text-xs font-bold mt-3 shadow-md hover:bg-red-700 active:scale-95 transition-all z-10 relative">
+                Adicionar
+            </button>
+        `;
+                    listaProdutos.appendChild(card);
+                });
+            }
+
+            carregarCategorias();
+        </script>
+    </main>
+
+    <footer class="mt-24 bg-[#333333] text-white p-12 text-center pb-24">
+        <h3 class="text-2xl font-bold mb-4">Brasa & Cia Churrascaria</h3>
+        <address class="not-italic text-sm text-gray-300 space-y-2">
+            <p>Rua Prof. Toledo, 500, Centro - Sorocaba</p>
+            <p>Whatsapp: (15) 98765-4321</p>
+        </address>
+        <p class="mt-6"><small class="text-gray-400">Aberto todos os dias das 11h às 23h</small></p>
+    </footer>
+
+    <a href="https://wa.me/5515987654321" class="fixed bottom-24 right-5 z-40 transition-transform hover:scale-110"
+        target="_blank">
+        <img src="assets/images/whatsapp.png" alt="WhatsApp" class="h-14 w-14">
+    </a>
+
+    <div id="detalhes-modal"
+        class="fixed inset-0 bg-black/70 z-[80] flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+        <div class="bg-white w-full max-w-[400px] rounded-[30px] overflow-hidden transform scale-95 transition-transform duration-300 relative flex flex-col"
+            id="detalhes-modal-content">
+
+            <button onclick="fecharModalDetalhes()"
+                class="absolute top-4 right-4 bg-white/80 backdrop-blur-md text-dark w-10 h-10 rounded-full flex justify-center items-center font-bold text-2xl shadow-sm z-10 hover:text-primary active:scale-90 transition-all">&times;</button>
+
+            <div class="w-full h-[280px] bg-gray-50 flex justify-center items-center p-8 relative">
+                <div class="absolute inset-0 bg-gradient-to-b from-gray-100 to-white opacity-50"></div>
+                <img id="detalhes-img" src="" alt="Produto"
+                    class="w-full h-full object-contain drop-shadow-xl relative z-10 transition-transform duration-500 hover:scale-105">
+            </div>
+
+            <div class="p-6">
+                <h2 id="detalhes-nome" class="text-3xl font-black text-dark mb-1 leading-tight tracking-tight">Nome</h2>
+                <p id="detalhes-preco" class="text-2xl font-black text-primary mb-4 drop-shadow-sm">R$ 0,00</p>
+                <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                    <p id="detalhes-desc" class="text-gray-600 text-sm leading-relaxed font-medium">Descrição...</p>
+                </div>
+
+                <button id="detalhes-btn-add" onclick=""
+                    class="w-full bg-gradient-to-r from-primary to-[#a82d2f] text-white py-4 rounded-xl text-[17px] font-extrabold shadow-[0_8px_20px_-6px_rgba(202,60,63,0.5)] hover:shadow-[0_8px_25px_-4px_rgba(202,60,63,0.6)] active:scale-[0.98] transition-all outline-none flex justify-center items-center gap-2">
+                    Adicionar ao Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="carrinho-footer"
+        class="fixed bottom-0 left-0 w-full bg-primary text-white p-4 z-50 shadow-[0_-4px_6px_rgba(0,0,0,0.1)] transform translate-y-full transition-transform duration-300 flex justify-between items-center cursor-pointer"
+        onclick="abrirModalCarrinho()">
+        <div>
+            <p class="text-sm font-medium">Resumo do Pedido</p>
+            <p class="text-xl font-bold">Total: <span id="carrinho-total">R$ 0,00</span></p>
+        </div>
+        <button class="bg-white text-primary px-4 py-2 rounded-lg font-bold shadow-md active:scale-95 transition-all">
+            Ver Carrinho
+        </button>
+    </div>
+
+    <div id="carrinho-modal"
+        class="fixed inset-0 bg-black/60 z-[60] flex flex-col justify-end sm:justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300">
+
+        <div class="bg-white w-full sm:w-[500px] h-[85vh] sm:h-auto sm:max-h-[85vh] rounded-t-3xl sm:rounded-2xl flex flex-col transform translate-y-full sm:translate-y-0 sm:scale-95 transition-transform duration-300"
+            id="carrinho-modal-content">
+
+            <div class="p-5 border-b flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-dark">Seu Carrinho</h2>
+                <button onclick="fecharModalCarrinho()"
+                    class="text-3xl font-bold text-muted hover:text-dark focus:outline-none">&times;</button>
+            </div>
+
+            <div id="carrinho-itens-container" class="p-5 flex-1 overflow-y-auto flex flex-col gap-4">
+            </div>
+
+            <div class="p-5 border-t bg-gray-50 rounded-b-3xl sm:rounded-b-2xl">
+        
+                <div class="flex flex-col gap-3 mb-4">
+                    <input type="text" id="cliente-nome" placeholder="Seu Nome Completo" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+                    
+                    <label class="flex items-center justify-between cursor-pointer select-none bg-white p-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
+                        <span class="font-bold text-dark text-[15px]">Retirar no Balcão?</span>
+                        <div class="relative">
+                            <input type="checkbox" id="retirada-balcao" class="peer sr-only" onchange="toggleRetirada()">
+                            <div class="block h-7 w-12 rounded-full bg-gray-300 peer-checked:bg-primary transition-colors"></div>
+                            <div class="absolute left-1 top-1 h-5 w-5 rounded-full bg-white transition-transform peer-checked:translate-x-5 shadow-sm"></div>
+                        </div>
+                    </label>
+
+                    <input type="text" id="cliente-endereco" placeholder="Endereço Completo para Entrega" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+                </div>
+        
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-lg font-bold">Total do Pedido:</span>
+                    <span id="modal-carrinho-total" class="text-2xl font-black text-primary">R$ 0,00</span>
+                </div>
+                <button onclick="fecharPedido()" id="btn-fechar-pedido"
+                    class="w-full bg-primary text-white py-3 rounded-xl text-lg font-bold shadow-lg hover:bg-red-700 active:scale-95 transition-all">
+                    Fechar Pedido (Usar GPS)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>        
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+        let carrinho = [];
+        let valorTotal = 0;
+
+        // --- Função nova para animar e esconder o campo de endereço ---
+        function toggleRetirada() {
+            const toggle = document.getElementById('retirada-balcao');
+            const inputEndereco = document.getElementById('cliente-endereco');
+            const btnPedido = document.getElementById('btn-fechar-pedido');
+
+            if (toggle.checked) {
+                inputEndereco.style.display = 'none';
+                btnPedido.innerText = "Confirmar Pedido (Vou Retirar)";
+            } else {
+                inputEndereco.style.display = 'block';
+                btnPedido.innerText = "Fechar Pedido (Usar GPS)";
+            }
+        }
+
+        function atualizarTotais() {
+            const textoValor = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+            document.getElementById('carrinho-total').innerText = textoValor;
+            document.getElementById('modal-carrinho-total').innerText = textoValor;
+
+            const footer = document.getElementById('carrinho-footer');
+            if (carrinho.length > 0) {
+                footer.classList.remove('translate-y-full');
+            } else {
+                footer.classList.add('translate-y-full');
+            }
+        }
+
+        function adicionarItem(id, nome, preco) {
+            carrinho.push({ id, nome, preco: parseFloat(preco) });
+            valorTotal += parseFloat(preco);
+            atualizarTotais();
+            fecharModalDetalhes();
+
+            if ("vibrate" in navigator) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function abrirModalDetalhes(nome, preco, desc, img, id) {
+            document.getElementById('detalhes-nome').innerText = nome;
+            document.getElementById('detalhes-preco').innerText = `R$ ${parseFloat(preco).toFixed(2).replace('.', ',')}`;
+            document.getElementById('detalhes-desc').innerText = desc;
+            document.getElementById('detalhes-img').src = img;
+
+            const btnAdd = document.getElementById('detalhes-btn-add');
+            btnAdd.onclick = () => adicionarItem(id, nome, preco);
+
+            const modal = document.getElementById('detalhes-modal');
+            const content = document.getElementById('detalhes-modal-content');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+        }
+
+        function fecharModalDetalhes() {
+            const modal = document.getElementById('detalhes-modal');
+            const content = document.getElementById('detalhes-modal-content');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.add('scale-95');
+        }
+
+        function abrirModalCarrinho() {
+            const container = document.getElementById('carrinho-itens-container');
+            container.innerHTML = '';
+
+            if (carrinho.length === 0) {
+                container.innerHTML = '<p class="text-center text-gray-500 mt-4">Seu carrinho está vazio.</p>';
+            } else {
+                carrinho.forEach(item => {
+                    container.innerHTML += `
+                        <div class="flex justify-between border-b pb-2">
+                            <span class="font-bold">${item.nome}</span>
+                            <span class="text-primary font-bold">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                    `;
+                });
+            }
+
+            const modal = document.getElementById('carrinho-modal');
+            const content = document.getElementById('carrinho-modal-content');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('translate-y-full', 'sm:scale-95');
+        }
+
+        function fecharModalCarrinho() {
+            const modal = document.getElementById('carrinho-modal');
+            const content = document.getElementById('carrinho-modal-content');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.add('translate-y-full', 'sm:scale-95');
+        }
+
+        async function fecharPedido() {
+            if (carrinho.length === 0) {
+                alert("Adicione itens ao carrinho antes de fechar o pedido!");
+                return;
+            }
+
+            const nome = document.getElementById('cliente-nome').value.trim();
+            const enderecoOriginal = document.getElementById('cliente-endereco').value.trim();
+            const vaiRetirar = document.getElementById('retirada-balcao').checked;
+
+            if (!nome) {
+                alert("Por favor, preencha seu nome completo!");
+                return;
+            }
+
+            // Se NÃO for retirar, exige o endereço
+            if (!vaiRetirar && !enderecoOriginal) {
+                alert("Por favor, preencha o endereço completo para a entrega!");
+                return;
+            }
+
+            // Se for retirar, forçamos o endereço para o Back e a Cozinha saberem!
+            const enderecoFinal = vaiRetirar ? "RETIRADA NO BALCÃO" : enderecoOriginal;
+
+            const btn = document.getElementById('btn-fechar-pedido');
+            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processando...`;
+            btn.disabled = true;
+
+            const enviarDadosParaAPI = async (lat = null, lon = null) => {
+                const payloadPedido = {
+                    cliente_nome: nome,
+                    cliente_endereco: enderecoFinal,
+                    itens: carrinho,
+                    valor_total: valorTotal,
+                    latitude: lat,
+                    longitude: lon,
+                    retirada: vaiRetirar
+                };
+
+                try {
+                    const resposta = await fetch(`${API_URL}/pedidos`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payloadPedido)
+                    });
+
+                    if (resposta.status === 201) {
+                        alert("Pedido confirmado com sucesso!\nO seu churrasco já vai ser preparado!");
+                        carrinho = [];
+                        valorTotal = 0;
+                        atualizarTotais();
+                        fecharModalCarrinho();
+                        
+                        document.getElementById('cliente-nome').value = '';
+                        document.getElementById('cliente-endereco').value = '';
+                        
+                        // Reseta o botão de toggle se quiser
+                        if(vaiRetirar) {
+                            document.getElementById('retirada-balcao').click(); 
+                        }
+                    } else {
+                        alert("Ops! Ocorreu um problema no sistema.");
+                    }
+                } catch (erro) {
+                    console.error("Erro ao enviar pedido:", erro);
+                    alert("Erro de conexão. Verifique sua internet.");
+                } finally {
+                    btn.innerHTML = vaiRetirar ? "Confirmar Pedido (Vou Retirar)" : "Fechar Pedido (Usar GPS)";
+                    btn.disabled = false;
+                }
+            };
+
+            // Se for retirar, envia IMEDIATAMENTE (Não perde tempo buscando GPS)
+            if (vaiRetirar) {
+                enviarDadosParaAPI(null, null);
+            } 
+            // Se for entrega, tenta pegar o GPS
+            else if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    posicao => enviarDadosParaAPI(posicao.coords.latitude, posicao.coords.longitude),
+                    erro => enviarDadosParaAPI(null, null),
+                    { enableHighAccuracy: true, timeout: 6000 }
+                );
+            } else {
+                enviarDadosParaAPI(null, null);
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .catch(err => console.error('Erro ao registrar SW:', err));
+            });
+        }
+    </script>
+</body>
+</html>
