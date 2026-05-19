@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const supabase = require('../config/supabase');
+const supabase = require('../data/supabase');
 
 // 1. BUSCAR TODOS OS PEDIDOS DO BANCO (Para o Painel exibir)
 router.get('/', async (req, res, next) => {
