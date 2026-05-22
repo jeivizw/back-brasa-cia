@@ -22,11 +22,9 @@ router.get('/', async (req, res, next) => {
             status: p.status,
             retirada: p.retirada,
             cliente_endereco: p.cliente_endereco,
-            localizacao: {
-                lat: p.lat ? Number(p.lat) : null,
-                lon: p.lon ? Number(p.lon) : null
-            },
-            // Garante que os itens em formato JSON sejam lidos corretamente
+            // (lat e lon foram removidos daqui, pois apagamos do banco)
+            
+            // Garante que os itens em formato JSON (texto) sejam lidos como lista novamente
             itens: typeof p.itens === 'string' ? JSON.parse(p.itens) : p.itens
         }));
 
@@ -36,7 +34,39 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-// 2. ATUALIZAR STATUS DO PEDIDO (Quando clicar em "PREPARAR" ou "SAIU ENTREGA")
+// ✨ 2. NOVO: CRIAR UM PEDIDO (Recebe os dados do site/carrinho e salva no banco)
+router.post('/', async (req, res, next) => {
+    try {
+        // Puxa exatamente as informações que configuramos no site
+        const { cliente, telefone, hora, total, status, retirada, cliente_endereco, itens } = req.body;
+
+        const { data, error } = await supabase
+            .from('pedidos')
+            .insert([
+                {
+                    cliente,
+                    telefone,
+                    hora,
+                    total,
+                    status: status || 'pendente',
+                    retirada,
+                    cliente_endereco,
+                    itens // O site já manda como string de texto graças ao JSON.stringify
+                }
+            ]);
+
+        if (error) throw error;
+
+        // Responde ao site com o status 201 (Criado com Sucesso!)
+        res.status(201).json({ sucesso: true, mensagem: 'Pedido criado com sucesso!' });
+    } catch (err) {
+        console.error("Erro no Back-end ao inserir pedido:", err);
+        // Se der erro, manda o erro de volta para o site (para aparecer naquele alerta do F12)
+        res.status(500).json({ erro: err.message || "Erro interno do servidor" });
+    }
+});
+
+// 3. ATUALIZAR STATUS DO PEDIDO (Quando clicar em "PREPARAR" ou "SAIU ENTREGA")
 router.put('/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
